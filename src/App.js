@@ -1,20 +1,21 @@
 import './App.css';
-import { useState } from 'react';
-import Menu from './components/Menu';
-
+import useCounter from './hooks/useCounter';
+import useRandomNumber from './hooks/useRandomNumber';
 
 function App() {
 
-  const [displayMenu, setDisplayMenu] = useState(true)
-  const [backgroundColor, setBackgroundColor] = useState(false)
+  const [counter, increment] = useCounter()
 
+  const [random, setRandom] = useRandomNumber(50)
 
   return (
     <div className="App">
-      <header className={`App-header ${backgroundColor? 'background' : ''}`}>
-        { displayMenu ? <Menu /> : null }
-        <button onClick={() => setDisplayMenu(!displayMenu)} >Menu</button>
-        <button onClick={() => setBackgroundColor(!backgroundColor)}>Cambiar fondo</button>
+      <header className='App-header'>
+        <h1> {counter} </h1>
+        <button onClick={increment}>Increment</button>
+
+        <h1> {random} </h1>
+        <button onClick={() => setRandom(10)}>Cambiar numerp</button>
       </header>
     </div>
   );
