@@ -1,24 +1,20 @@
 import './App.css';
 import { useState } from 'react';
+import Menu from './components/Menu';
+
 
 function App() {
 
-  const [isCelsious, setIsCelsious] = useState(false)
-  const [inputValue, setInputValue] = useState(0)
+  const [displayMenu, setDisplayMenu] = useState(true)
+  const [backgroundColor, setBackgroundColor] = useState(false)
 
-  const handlerOnChange = (e) => {
-    setInputValue(Number(e.target.value))
-  }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <input onChange={handlerOnChange} />
-        <h1> {isCelsious ? inputValue : (inputValue * 9/5 )+ 32 } {
-          isCelsious ? '°C' : '°F'
-        }</h1>
-        
-        <button onClick={() => setIsCelsious(!isCelsious)}>Cambiar a {isCelsious? 'Fahrenheit' : 'Centigrados'}</button>
+      <header className={`App-header ${backgroundColor? 'background' : ''}`}>
+        { displayMenu ? <Menu /> : null }
+        <button onClick={() => setDisplayMenu(!displayMenu)} >Menu</button>
+        <button onClick={() => setBackgroundColor(!backgroundColor)}>Cambiar fondo</button>
       </header>
     </div>
   );
