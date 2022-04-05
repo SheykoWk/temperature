@@ -1,21 +1,33 @@
+import { useEffect, useState } from 'react';
 import './App.css';
-import useCounter from './hooks/useCounter';
-import useRandomNumber from './hooks/useRandomNumber';
+import Pokemon from './components/Pokemon';
+import getAllPokemons from './services/getAllPokemons';
 
 function App() {
 
-  const [counter, increment] = useCounter()
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [pokemons, setPokemons] = useState([])
 
-  const [random, setRandom] = useRandomNumber(50)
+  useEffect(() => {
+    getAllPokemons()
+      .then((response) => {
+        setIsLoaded(true)
+        setPokemons(response.data.results)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }, [])
+
+  const list = pokemons.map((pokemon) => <Pokemon name={pokemon.name} key={pokemon.name} />)
+
 
   return (
     <div className="App">
       <header className='App-header'>
-        <h1> {counter} </h1>
-        <button onClick={increment}>Increment</button>
-
-        <h1> {random} </h1>
-        <button onClick={() => setRandom(10)}>Cambiar numerp</button>
+        { 
+          isLoaded ? list : 'Cargando...'
+        }
       </header>
     </div>
   );
